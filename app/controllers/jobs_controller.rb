@@ -1,7 +1,12 @@
 class JobsController < ApplicationController
   before_action :find_job, only: [:show, :edit, :update, :destroy]
   def index
-    @job = Job.all.order("created_at DESC")
+    if params[:category].blank?
+      @job = Job.all.order("created_at DESC")
+    else
+      @categroy_id = Category.find_by(name: params[:category]).id
+      @jobs = Job.where(categroy_id: @categroy_id).order("created_at DESC")
+    end
   end
 
   def show
@@ -17,7 +22,7 @@ class JobsController < ApplicationController
     if @job.save
       redirect_to @job
     else
-      render "New"
+      render :new
     end
   end
 
@@ -28,7 +33,7 @@ class JobsController < ApplicationController
     if @job.update(jobs_params)
       redirect_to @job
     else
-      render "Edit"
+      render :edit
     end
   end
 
@@ -40,7 +45,7 @@ class JobsController < ApplicationController
   private
 
   def jobs_params
-    params.require(:job).permit(:title, :description, :company, :url)    
+    params.require(:job).permit(:title, :description, :company, :url, :categroy_id)    
   end
 
   def find_job
