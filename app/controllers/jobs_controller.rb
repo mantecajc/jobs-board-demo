@@ -5,7 +5,7 @@ class JobsController < ApplicationController
       @job = Job.all.order("created_at DESC")
     else
       @categroy_id = Category.find_by(name: params[:category]).id
-      @jobs = Job.where(categroy_id: @categroy_id).order("created_at DESC")
+      @job = Job.where(categroy_id: @categroy_id).order("created_at DESC")
     end
   end
 
