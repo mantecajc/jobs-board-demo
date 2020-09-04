@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>JobsBoard</title>
+    <title>Ruby on Rails Jobs</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -10,6 +10,11 @@
   </head>
 
   <body>
+
+    <% Category.all.each do |category| %>
+      <%= link_to category.name, jobs_path(category: category.name) %>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>
